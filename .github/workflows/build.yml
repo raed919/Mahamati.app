@@ -19,9 +19,9 @@ jobs:
         with:
           channel: 'stable'
       - run: pip install flet
-      - run: flet build web
+      - run: flet build web --base-url /Mahamati.app/
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: build/web
-          branch: gh-pages # الموقع راح ينرفع على هذا الفرع
+          branch: gh-pages
