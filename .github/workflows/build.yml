@@ -1,17 +1,6 @@
-name: Build and Deploy Web
+name: Generate Web Files
 on:
-  push:
-    branches: [ main ]
   workflow_dispatch:
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
 
 jobs:
   build:
@@ -22,18 +11,9 @@ jobs:
         with:
           python-version: '3.11'
       - run: pip install flet
-      - run: flet publish --base-url /Mahamati.app/
-      - uses: actions/upload-pages-artifact@v3
+      - run: flet publish
+      - name: Save Files for Netlify
+        uses: actions/upload-artifact@v4
         with:
-          path: 'dist'
-
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          name: Mahamati-Ready-Files
+          path: dist
